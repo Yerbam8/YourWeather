@@ -7,8 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Weather {
@@ -18,39 +16,25 @@ public class Weather {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @NotNull
     @Max(60)
     @Min(-60)
     private int temp;
 
-    @NotNull
     @Min(0)
     @Max(100)
     private int humidity;
 
-    @NotNull
-    @Min(1013)
+    @Min(900)
     @Max(1100)
     private int pressure;
 
-    @NotNull
     private WindDirections windDirections;
 
-
-    @NotNull
+    @Min(0)
+    @Max(300)
     private int windSpeed;
 
     public Weather() {
-    }
-
-    public Weather(@NotNull @Max(60) @Min(-60) @NotEmpty int temp, @NotNull @Min(0) @Max(100) @NotEmpty int humidity,
-                   @NotNull @Min(1013) @Max(1100) @NotEmpty int pressure, @NotNull @NotEmpty WindDirections windDirections,
-                   @NotEmpty @NotNull int windSpeed) {
-        this.temp = temp;
-        this.humidity = humidity;
-        this.pressure = pressure;
-        this.windDirections = windDirections;
-        this.windSpeed = windSpeed;
     }
 
     public String getId() {
@@ -89,7 +73,7 @@ public class Weather {
         this.windDirections = windDirections;
     }
 
-    public float getWindSpeed() {
+    public int getWindSpeed() {
         return windSpeed;
     }
 

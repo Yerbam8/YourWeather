@@ -35,12 +35,12 @@ public class WeatherController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Weather> getById(@PathVariable String id) {
+    public Weather getById(@PathVariable String id) {
         return weatherService.getById(id);
     }
 
-    @PutMapping
-    public void updateWeather() {
-        weatherService.updateWeather();
+    @PutMapping("/{id}")
+    public Weather updateWeather(@PathVariable String id, @RequestBody Weather weather) {
+        return weatherService.updateWeather(id, weather);
     }
 }
