@@ -20,23 +20,27 @@ public class WeatherController {
     }
 
     @PostMapping
-    public Weather addWeather(@RequestBody @Valid Weather weather){
+    public Weather addWeather(@RequestBody @Valid Weather weather) {
         return weatherService.addWeather(weather);
     }
 
-    public void removeWeather(String id){
+    @DeleteMapping
+    public void removeWeather(@RequestParam String id) {
         weatherService.removeWeather(id);
     }
 
-    public List<Weather> geAllWeather(){
+    @GetMapping
+    public List<Weather> geAllWeather() {
         return weatherService.getAllWeather();
     }
 
-    public Optional<Weather> getById(String id){
+    @GetMapping("/{id}")
+    public Optional<Weather> getById(@PathVariable String id) {
         return weatherService.getById(id);
     }
 
-    public void updateWeather(){
+    @PutMapping
+    public void updateWeather() {
         weatherService.updateWeather();
     }
 }
