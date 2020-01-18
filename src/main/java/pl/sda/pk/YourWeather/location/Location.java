@@ -17,18 +17,23 @@ public class Location {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
+
     @NotNull
     @NotEmpty
     private String cityName;
+
     @Size(min = 2)
     @NotNull
     private String region;
+
     @Min(-90)
     @Max(90)
     private float latitude;
+
     @Min(-180)
     @Max(180)
     private float longitude;
+
     @NotNull
     @NotEmpty
     private String countryName;
@@ -39,6 +44,10 @@ public class Location {
     public Location() {
     }
 
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;

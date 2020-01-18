@@ -2,6 +2,7 @@ package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.instrument.classloading.WeavingTransformer;
 import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.location.Location;
 import pl.sda.pk.YourWeather.location.LocationRepository;
@@ -16,15 +17,21 @@ public class WeatherService {
 
     private final WeatherRepository weatherRepository;
     private final LocationRepository locationRepository;
+    private final WeatherDTOTransformer weatherDTOTransformer;
 
     @Autowired
     public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
-                          @Qualifier("locationRepository") LocationRepository locationRepository) {
+                          @Qualifier("locationRepository") LocationRepository locationRepository,
+                          @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer) {
+
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
+        this.weatherDTOTransformer = weatherDTOTransformer;
     }
 
-    public Weather addWeather(Weather weather) {
+    public WeatherDTO addWeather(WeatherDTO weatherDTO) {
+        Weather weather = weatherDTOTransformer.toEntity(weatherDTO);
+
         String locationId = weather.getLocation().getId();
         Location location = locationRepository.findById(locationId)
                 .orElseThrow(() ->
@@ -33,7 +40,7 @@ public class WeatherService {
         Weather savedWeather = weatherRepository.save(weather);
         location.getWeathers().add(savedWeather);
         locationRepository.save(location);
-        return savedWeather;
+        return weatherDTOTransformer.toWeatherDTO(savedWeather);
     }
 
     public List<Weather> getWeather(Map<String, String> params) {

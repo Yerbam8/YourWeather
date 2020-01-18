@@ -1,6 +1,5 @@
 package pl.sda.pk.YourWeather.weather;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.sda.pk.YourWeather.location.Location;
 
 import javax.persistence.*;
@@ -43,10 +42,6 @@ public class Weather {
     private Location location;
 
     public Weather() {
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getId() {
