@@ -3,6 +3,7 @@ package pl.sda.pk.YourWeather.location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import pl.sda.pk.YourWeather.core.LocationAlreadyExistException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,8 +19,19 @@ public class LocationService {
     }
 
     public Location addLocation(Location location) {
+        locationRepository.findByCityNameAndLongitudeAndLatitude(
+                location.getCityName(),
+                location.getLongitude(),
+                location.getLatitude())
+                .ifPresent(l -> {
+                    throw new LocationAlreadyExistException(
+                            location.getCityName(),
+                            location.getLongitude(),
+                            location.getLatitude());
+                });
         return locationRepository.save(location);
     }
+
 
     public void removeLocation(String id) {
         locationRepository.findAll().stream()
