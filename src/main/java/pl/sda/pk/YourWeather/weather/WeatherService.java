@@ -1,10 +1,12 @@
-package pl.sda.pk.YourWeather.weather.feature1;
+package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service("weatherService")
@@ -32,15 +34,6 @@ public class WeatherService {
         weatherRepository.delete(weatherToRemove);
     }
 
-    public List<Weather> getAllWeather() {
-        return weatherRepository.findAll();
-    }
-
-    public Weather getById(String id) {
-        return weatherRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("element not found"));
-    }
-
     public Weather updateWeather(String id, Weather weather) {
 
         Weather weatherToUpdate = weatherRepository.findById(id)
@@ -62,5 +55,17 @@ public class WeatherService {
             weatherToUpdate.setWindSpeed(weather.getWindSpeed());
         }
         return weatherRepository.save(weatherToUpdate);
+    }
+
+    public List<Weather> getWeather(Map<String, String> params) {
+        if (params.containsKey("id")) {
+            return Collections.singletonList(weatherRepository.findById(params.get("id"))
+                    .orElseThrow(NoSuchElementException::new));
+        } else if (params.containsKey("date")) {
+            return Collections.singletonList(weatherRepository.findByDate(params.get("date"))
+                    .orElseThrow(NoSuchElementException::new));
+        } else {
+            return weatherRepository.findAll();
+        }
     }
 }

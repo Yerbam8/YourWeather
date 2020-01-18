@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.weather.feature1;
+package pl.sda.pk.YourWeather.weather;
 
 public enum WindDirections {
 
