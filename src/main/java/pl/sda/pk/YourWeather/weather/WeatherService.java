@@ -2,15 +2,12 @@ package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.instrument.classloading.WeavingTransformer;
 import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.location.Location;
 import pl.sda.pk.YourWeather.location.LocationRepository;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("weatherService")
 public class WeatherService {
@@ -43,16 +40,23 @@ public class WeatherService {
         return weatherDTOTransformer.toWeatherDTO(savedWeather);
     }
 
-    public List<Weather> getWeather(Map<String, String> params) {
+    public List<WeatherDTO> getWeather(Map<String, String> params) {
 
         if (params.containsKey("id")) {
-            return Collections.singletonList(weatherRepository.findById(Long.parseLong(params.get("id")))
-                    .orElseThrow(NoSuchElementException::new));
-        } else if (params.containsKey("date")) {
-            return Collections.singletonList(weatherRepository.findByDate(params.get("date"))
-                    .orElseThrow(NoSuchElementException::new));
-        } else {
-            return weatherRepository.findAll();
+         return  weatherRepository.findAll().stream()
+                    .filter(weather ->Long.valueOf(params.get("id")).equals(weather.getId()))
+                    .map(weatherDTOTransformer::toWeatherDTO)
+//                    .findFirst().orElseThrow(()->new NoSuchElementException("elo"));
+                        .collect(Collectors.toList());
+
+        }
+//        else if (params.containsKey("date")) {
+//            return weatherRepository.findByDate("date");
+//        }
+        else {
+           return weatherRepository.findAll().stream()
+                   .map(weatherDTOTransformer::toWeatherDTO)
+                   .collect(Collectors.toList());
         }
     }
 
