@@ -2,10 +2,9 @@ package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import pl.sda.pk.YourWeather.location.Location;
+import pl.sda.pk.YourWeather.location.LocationRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,23 +15,28 @@ import java.util.NoSuchElementException;
 public class WeatherService {
 
     private final WeatherRepository weatherRepository;
+    private final LocationRepository locationRepository;
 
     @Autowired
-    public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository) {
+    public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
+                          @Qualifier("locationRepository") LocationRepository locationRepository) {
         this.weatherRepository = weatherRepository;
+        this.locationRepository = locationRepository;
     }
 
     public Weather addWeather(Weather weather) {
-
-        if (weatherRepository.findById(weather.getId()).isPresent()) {
-            throw new IllegalArgumentException("element exists in database");
-        } else {
-            return weatherRepository.save(weather);
-        }
+        String locationId = weather.getLocation().getId();
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("no location found"));
+        weather.setLocation(location);
+        Weather savedWeather = weatherRepository.save(weather);
+        location.getWeathers().add(savedWeather);
+        locationRepository.save(location);
+        return savedWeather;
     }
 
     public List<Weather> getWeather(Map<String, String> params) {
-
         if (params.containsKey("id")) {
             return Collections.singletonList(weatherRepository.findById(Long.parseLong(params.get("id")))
                     .orElseThrow(NoSuchElementException::new));

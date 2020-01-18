@@ -1,5 +1,6 @@
 package pl.sda.pk.YourWeather.weather;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.sda.pk.YourWeather.location.Location;
 
 import javax.persistence.*;
@@ -40,7 +41,6 @@ public class Weather {
 
     @ManyToOne
     private Location location;
-
 
     public Weather() {
     }
