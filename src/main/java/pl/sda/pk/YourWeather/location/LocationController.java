@@ -35,11 +35,29 @@ public class LocationController {
     }
 
     @GetMapping
-    public List<Location> getAllLocation(){
+    public List<Location> getAllLocation() {
         return locationService.getAllLocation();
     }
+
     @PutMapping("/{id}")
-    public Location updateLocation(@PathVariable String id,@RequestBody Location location){
-        return locationService.updateLocation(id,location);
+    public Location updateLocation(@PathVariable String id, @RequestBody Location location) {
+        return locationService.updateLocation(id, location);
+    }
+
+    @GetMapping("/city/{cityName)")
+    public Optional<Location> getByCityName(@PathVariable String cityName) {
+        return locationService.getLocationByCityName(cityName);
+    }
+    @GetMapping("/country/{countryName}")
+    public Optional<Location> getByCountryName(@PathVariable String country){
+        return locationService.getLocationByCountry(country);
+    }
+    @GetMapping("/{lat}/{longitude}")
+    public Optional<Location> getByLatAndLong(@PathVariable float lat,@PathVariable float longitude){
+        return locationService.getLocationByLatAndLong(lat,longitude);
+    }
+    @GetMapping("/region/{region}")
+    public Optional<Location> getLocationByRegion(@PathVariable String region){
+        return locationService.getLocationByRegion(region);
     }
 }
