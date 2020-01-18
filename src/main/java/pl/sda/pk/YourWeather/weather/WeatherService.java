@@ -20,6 +20,7 @@ public class WeatherService {
     }
 
     public Weather addWeather(Weather weather) {
+
         if (weatherRepository.findById(weather.getId()).isPresent()) {
             throw new IllegalArgumentException("element exists in database");
         } else {
