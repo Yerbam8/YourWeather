@@ -20,12 +20,12 @@ public class WeatherController {
     }
 
     @GetMapping
-    public List<Weather> getWeather(@RequestParam(required = false) Map<String, String> param) {
+    public List<WeatherDTO> getWeather(@RequestParam(required = false) Map<String, String> param) {
         return weatherService.getWeather(param);
     }
 
     @PostMapping
-    public Weather addWeather(@RequestBody @Valid Weather weather) {
+    public WeatherDTO addWeather(@RequestBody  WeatherDTO weather) {
         return weatherService.addWeather(weather);
     }
 
