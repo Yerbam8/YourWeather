@@ -2,6 +2,9 @@ package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -28,6 +31,19 @@ public class WeatherService {
         }
     }
 
+    public List<Weather> getWeather(Map<String, String> params) {
+
+        if (params.containsKey("id")) {
+            return Collections.singletonList(weatherRepository.findById(Long.parseLong(params.get("id")))
+                    .orElseThrow(NoSuchElementException::new));
+        } else if (params.containsKey("date")) {
+            return Collections.singletonList(weatherRepository.findByDate(params.get("date"))
+                    .orElseThrow(NoSuchElementException::new));
+        } else {
+            return weatherRepository.findAll();
+        }
+    }
+
     public void removeWeather(String id) {
         Weather weatherToRemove = weatherRepository.findAll().stream()
                 .filter(weather -> id.equals(weather.getId()))
@@ -35,7 +51,7 @@ public class WeatherService {
         weatherRepository.delete(weatherToRemove);
     }
 
-    public Weather updateWeather(String id, Weather weather) {
+    public Weather updateWeather(Long id, Weather weather) {
 
         Weather weatherToUpdate = weatherRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("element not found"));
@@ -56,17 +72,5 @@ public class WeatherService {
             weatherToUpdate.setWindSpeed(weather.getWindSpeed());
         }
         return weatherRepository.save(weatherToUpdate);
-    }
-
-    public List<Weather> getWeather(Map<String, String> params) {
-        if (params.containsKey("id")) {
-            return Collections.singletonList(weatherRepository.findById(params.get("id"))
-                    .orElseThrow(NoSuchElementException::new));
-        } else if (params.containsKey("date")) {
-            return Collections.singletonList(weatherRepository.findByDate(params.get("date"))
-                    .orElseThrow(NoSuchElementException::new));
-        } else {
-            return weatherRepository.findAll();
-        }
     }
 }

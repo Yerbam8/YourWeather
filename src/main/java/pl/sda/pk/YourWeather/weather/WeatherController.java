@@ -19,6 +19,11 @@ public class WeatherController {
         this.weatherService = weatherService;
     }
 
+    @GetMapping
+    public List<Weather> getWeather(@RequestParam(required = false) Map<String, String> param) {
+        return weatherService.getWeather(param);
+    }
+
     @PostMapping
     public Weather addWeather(@RequestBody @Valid Weather weather) {
         return weatherService.addWeather(weather);
@@ -29,13 +34,9 @@ public class WeatherController {
         weatherService.removeWeather(id);
     }
 
-    @GetMapping
-    public List<Weather> getWeather(@RequestParam(required = false) Map<String, String> param) {
-        return weatherService.getWeather(param);
-    }
-
     @PutMapping("/{id}")
-    public Weather updateWeather(@PathVariable String id, @RequestBody Weather weather) {
+    public Weather updateWeather(@PathVariable Long id,
+                                 @RequestBody Weather weather) {
         return weatherService.updateWeather(id, weather);
     }
 }

@@ -1,11 +1,14 @@
 package pl.sda.pk.YourWeather.location;
 
 import org.hibernate.annotations.GenericGenerator;
+import pl.sda.pk.YourWeather.weather.Weather;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,6 +32,9 @@ public class Location {
     @NotNull
     @NotEmpty
     private String countryName;
+
+    @OneToMany
+    private List<Weather> weathers;
 
     public Location() {
     }
@@ -89,6 +95,14 @@ public class Location {
                 Objects.equals(cityName, location.cityName) &&
                 Objects.equals(region, location.region) &&
                 Objects.equals(countryName, location.countryName);
+    }
+
+    public List<Weather> getWeathers() {
+        return weathers;
+    }
+
+    public void setWeathers(List<Weather> weathers) {
+        this.weathers = weathers;
     }
 
     @Override
