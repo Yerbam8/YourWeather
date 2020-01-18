@@ -44,6 +44,7 @@ public class WeatherService {
     }
 
     public List<Weather> getWeather(Map<String, String> params) {
+
         if (params.containsKey("id")) {
             return Collections.singletonList(weatherRepository.findById(Long.parseLong(params.get("id")))
                     .orElseThrow(NoSuchElementException::new));
