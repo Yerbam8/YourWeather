@@ -45,7 +45,7 @@ public class LocationService {
         if (location.getCountryName() != null) {
             locationToUpdate.setCountryName(location.getCountryName());
         }
-        if (location.getLatitude()!=locationToUpdate.getLatitude()) {
+        if (location.getLatitude() != locationToUpdate.getLatitude()) {
             locationToUpdate.setLatitude(location.getLatitude());
         }
         if (location.getLongitude() != locationToUpdate.getLongitude()) {
@@ -58,5 +58,37 @@ public class LocationService {
         return locationRepository.save(locationToUpdate);
     }
 
+    public Optional<Location> getLocationByLatAndLong(float lat, float longitude) {
+        return locationRepository.findByLatitudeAndLongitude(lat, longitude);
+    }
+
+    public Optional<Location> getLocationByCountry(String country) {
+        return locationRepository.findByCountryName(country);
+    }
+
+    public Optional<Location> getLocationByRegion(String region) {
+        return locationRepository.findByRegion(region);
+    }
+
+    public Optional<Location> getLocationByCityName(String cityName) {
+        return locationRepository.findByCityName(cityName);
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
