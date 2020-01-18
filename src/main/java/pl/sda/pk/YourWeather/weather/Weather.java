@@ -1,12 +1,14 @@
-package pl.sda.pk.YourWeather.weather.feature1;
+package pl.sda.pk.YourWeather.weather;
 
 import org.hibernate.annotations.GenericGenerator;
+import pl.sda.pk.YourWeather.location.Location;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class Weather {
@@ -28,11 +30,15 @@ public class Weather {
     @Max(1100)
     private int pressure;
 
+    @Pattern(regexp = "^\\d{2}-\\d{2}-\\d{4}$")
+    private String date;
+
     private WindDirections windDirections;
 
     @Min(0)
     @Max(300)
     private int windSpeed;
+
 
     public Weather() {
     }
@@ -63,6 +69,14 @@ public class Weather {
 
     public void setPressure(int pressure) {
         this.pressure = pressure;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public WindDirections getWindDirections() {

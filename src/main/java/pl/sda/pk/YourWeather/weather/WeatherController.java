@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.weather.feature1;
+package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/weather")
@@ -30,13 +30,8 @@ public class WeatherController {
     }
 
     @GetMapping
-    public List<Weather> geAllWeather() {
-        return weatherService.getAllWeather();
-    }
-
-    @GetMapping("/{id}")
-    public Weather getById(@PathVariable String id) {
-        return weatherService.getById(id);
+    public List<Weather> getWeather(@RequestParam(required = false) Map<String, String> param) {
+        return weatherService.getWeather(param);
     }
 
     @PutMapping("/{id}")
