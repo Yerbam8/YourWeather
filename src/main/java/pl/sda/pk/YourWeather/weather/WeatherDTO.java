@@ -25,7 +25,6 @@ public class WeatherDTO {
     public WeatherDTO() {
     }
 
-
     public long getId() {
         return id;
     }

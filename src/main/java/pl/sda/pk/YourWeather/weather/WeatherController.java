@@ -25,8 +25,8 @@ public class WeatherController {
     }
 
     @PostMapping
-    public Weather addWeather(@RequestBody @Valid Weather weather) {
-        return weatherService.addWeather(weather);
+    public WeatherDTO addWeather(@RequestBody @Valid WeatherDTO weatherDTO) {
+        return weatherService.addWeather(weatherDTO);
     }
 
     @DeleteMapping
