@@ -41,22 +41,14 @@ public class WeatherService {
     }
 
     public List<WeatherDTO> getWeather(Map<String, String> params) {
-
         if (params.containsKey("id")) {
-         return  weatherRepository.findAll().stream()
-                    .filter(weather ->Long.valueOf(params.get("id")).equals(weather.getId()))
+            return Collections.singletonList(weatherDTOTransformer.toWeatherDTO(weatherRepository
+                    .findById(Long.parseLong(params.get("id")))
+                    .orElseThrow(() -> new NoSuchElementException("weather not found"))));
+        } else {
+            return weatherRepository.findAll().stream()
                     .map(weatherDTOTransformer::toWeatherDTO)
-//                    .findFirst().orElseThrow(()->new NoSuchElementException("elo"));
-                        .collect(Collectors.toList());
-
-        }
-//        else if (params.containsKey("date")) {
-//            return weatherRepository.findByDate("date");
-//        }
-        else {
-           return weatherRepository.findAll().stream()
-                   .map(weatherDTOTransformer::toWeatherDTO)
-                   .collect(Collectors.toList());
+                    .collect(Collectors.toList());
         }
     }
 
