@@ -13,7 +13,7 @@ public class Weather {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Max(60)
     @Min(-60)
