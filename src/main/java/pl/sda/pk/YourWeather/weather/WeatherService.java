@@ -52,10 +52,10 @@ public class WeatherService {
         }
     }
 
-    public void removeWeather(String id) {
-        Weather weatherToRemove = weatherRepository.findAll().stream()
-                .filter(weather -> id.equals(weather.getId()))
-                .findAny().orElseThrow(() -> new NoSuchElementException("element not found"));
+    public void removeWeather(long id) {
+        Weather weatherToRemove = weatherRepository.findById(id).
+                orElseThrow(() -> new NoSuchElementException("element not found"));
+
         weatherRepository.delete(weatherToRemove);
     }
 

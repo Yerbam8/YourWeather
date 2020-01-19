@@ -44,6 +44,15 @@ public class Location {
     public Location() {
     }
 
+    public Location(@NotNull @NotEmpty String cityName, @Size(min = 2) @NotNull String region, @Min(-90) @Max(90) float latitude,
+                    @Min(-180) @Max(180) float longitude, @NotNull @NotEmpty String countryName, List<Weather> weathers) {
+        this.cityName = cityName;
+        this.region = region;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.countryName = countryName;
+        this.weathers = weathers;
+    }
 
     public void setId(String id) {
         this.id = id;

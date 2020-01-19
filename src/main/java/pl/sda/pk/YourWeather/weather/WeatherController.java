@@ -15,7 +15,7 @@ public class WeatherController {
     private final WeatherService weatherService;
 
     @Autowired
-    public WeatherController(@Qualifier("weatherService") WeatherService weatherService) {
+    public WeatherController(@Qualifier("weatherService") @Valid WeatherService weatherService) {
         this.weatherService = weatherService;
     }
 
@@ -31,7 +31,7 @@ public class WeatherController {
     }
 
     @DeleteMapping
-    public void removeWeather(@RequestParam String id) {
+    public void removeWeather(@RequestParam long id) {
         weatherService.removeWeather(id);
     }
 
