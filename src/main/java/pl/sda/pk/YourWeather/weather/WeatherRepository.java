@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository("weatherRepository")
-public interface WeatherRepository extends JpaRepository<Weather, String> {
+public interface WeatherRepository extends JpaRepository<Weather, Long> {
 
     Optional<Weather> findByDate(String date);
 }

@@ -1,11 +1,14 @@
 package pl.sda.pk.YourWeather.location;
 
 import org.hibernate.annotations.GenericGenerator;
+import pl.sda.pk.YourWeather.weather.Weather;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,25 +17,37 @@ public class Location {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
+
     @NotNull
     @NotEmpty
     private String cityName;
+
     @Size(min = 2)
     @NotNull
     private String region;
+
     @Min(-90)
     @Max(90)
     private float latitude;
+
     @Min(-180)
     @Max(180)
     private float longitude;
+
     @NotNull
     @NotEmpty
     private String countryName;
 
+    @OneToMany
+    private List<Weather> weathers;
+
     public Location() {
     }
 
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;
@@ -89,6 +104,14 @@ public class Location {
                 Objects.equals(cityName, location.cityName) &&
                 Objects.equals(region, location.region) &&
                 Objects.equals(countryName, location.countryName);
+    }
+
+    public List<Weather> getWeathers() {
+        return weathers;
+    }
+
+    public void setWeathers(List<Weather> weathers) {
+        this.weathers = weathers;
     }
 
     @Override

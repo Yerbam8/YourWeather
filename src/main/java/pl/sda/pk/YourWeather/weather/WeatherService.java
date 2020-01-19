@@ -3,28 +3,52 @@ package pl.sda.pk.YourWeather.weather;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import pl.sda.pk.YourWeather.location.Location;
+import pl.sda.pk.YourWeather.location.LocationRepository;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("weatherService")
 public class WeatherService {
 
     private final WeatherRepository weatherRepository;
+    private final LocationRepository locationRepository;
+    private final WeatherDTOTransformer weatherDTOTransformer;
 
     @Autowired
-    public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository) {
+    public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
+                          @Qualifier("locationRepository") LocationRepository locationRepository,
+                          @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer) {
+
         this.weatherRepository = weatherRepository;
+        this.locationRepository = locationRepository;
+        this.weatherDTOTransformer = weatherDTOTransformer;
     }
 
-    public Weather addWeather(Weather weather) {
+    public WeatherDTO addWeather(WeatherDTO weatherDTO) {
+        Weather weather = weatherDTOTransformer.toEntity(weatherDTO);
 
-        if (weatherRepository.findById(weather.getId()).isPresent()) {
-            throw new IllegalArgumentException("element exists in database");
+        String locationId = weather.getLocation().getId();
+        Location location = locationRepository.findById(locationId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("no location found"));
+        weather.setLocation(location);
+        Weather savedWeather = weatherRepository.save(weather);
+        location.getWeathers().add(savedWeather);
+        locationRepository.save(location);
+        return weatherDTOTransformer.toWeatherDTO(savedWeather);
+    }
+
+    public List<WeatherDTO> getWeather(Map<String, String> params) {
+        if (params.containsKey("id")) {
+            return Collections.singletonList(weatherDTOTransformer.toWeatherDTO(weatherRepository
+                    .findById(Long.parseLong(params.get("id")))
+                    .orElseThrow(() -> new NoSuchElementException("weather not found"))));
         } else {
-            return weatherRepository.save(weather);
+            return weatherRepository.findAll().stream()
+                    .map(weatherDTOTransformer::toWeatherDTO)
+                    .collect(Collectors.toList());
         }
     }
 
@@ -35,7 +59,7 @@ public class WeatherService {
         weatherRepository.delete(weatherToRemove);
     }
 
-    public Weather updateWeather(String id, Weather weather) {
+    public Weather updateWeather(Long id, Weather weather) {
 
         Weather weatherToUpdate = weatherRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("element not found"));
@@ -56,17 +80,5 @@ public class WeatherService {
             weatherToUpdate.setWindSpeed(weather.getWindSpeed());
         }
         return weatherRepository.save(weatherToUpdate);
-    }
-
-    public List<Weather> getWeather(Map<String, String> params) {
-        if (params.containsKey("id")) {
-            return Collections.singletonList(weatherRepository.findById(params.get("id"))
-                    .orElseThrow(NoSuchElementException::new));
-        } else if (params.containsKey("date")) {
-            return Collections.singletonList(weatherRepository.findByDate(params.get("date"))
-                    .orElseThrow(NoSuchElementException::new));
-        } else {
-            return weatherRepository.findAll();
-        }
     }
 }

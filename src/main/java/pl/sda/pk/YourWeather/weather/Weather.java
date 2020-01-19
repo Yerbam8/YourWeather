@@ -1,22 +1,19 @@
 package pl.sda.pk.YourWeather.weather;
 
-import org.hibernate.annotations.GenericGenerator;
 import pl.sda.pk.YourWeather.location.Location;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.util.Objects;
 
 @Entity
 public class Weather {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Max(60)
     @Min(-60)
@@ -33,17 +30,21 @@ public class Weather {
     @Pattern(regexp = "^\\d{2}-\\d{2}-\\d{4}$")
     private String date;
 
+    @Column(name = "wind_directions")
     private WindDirections windDirections;
 
     @Min(0)
     @Max(300)
+    @Column(name = "wind_speed")
     private int windSpeed;
 
+    @ManyToOne
+    private Location location;
 
     public Weather() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -93,5 +94,37 @@ public class Weather {
 
     public void setWindSpeed(int windSpeed) {
         this.windSpeed = windSpeed;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Weather weather = (Weather) o;
+        return id == weather.id &&
+                temp == weather.temp &&
+                humidity == weather.humidity &&
+                pressure == weather.pressure &&
+                windSpeed == weather.windSpeed &&
+                Objects.equals(date, weather.date) &&
+                windDirections == weather.windDirections &&
+                Objects.equals(location, weather.location);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, temp, humidity, pressure, date, windDirections, windSpeed, location);
     }
 }

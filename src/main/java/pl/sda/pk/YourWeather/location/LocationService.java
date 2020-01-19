@@ -2,6 +2,7 @@ package pl.sda.pk.YourWeather.location;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.core.LocationAlreadyExistException;
 
@@ -45,7 +46,8 @@ public class LocationService {
     }
 
     public List<Location> getAllLocation() {
-        return locationRepository.findAll();
+        Sort sort = Sort.by(Sort.Direction.DESC,"cityName");
+        return locationRepository.findAll(sort);
     }
 
     public Location updateLocation(String id, Location location) {
@@ -85,6 +87,8 @@ public class LocationService {
     public Optional<Location> getLocationByCityName(String cityName) {
         return locationRepository.findByCityName(cityName);
     }
+
+
 
 }
 
