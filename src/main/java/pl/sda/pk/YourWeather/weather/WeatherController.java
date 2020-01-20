@@ -2,14 +2,14 @@ package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/weather")
+@RequestMapping("/weathers")
 public class WeatherController {
 
     private final WeatherService weatherService;
@@ -24,14 +24,19 @@ public class WeatherController {
         return weatherService.getWeather(param);
     }
 
+    @GetMapping("/all_weathers")
+    public List<WeatherDTO> getAllWeathers(@RequestParam(required = false) String sort) {
+        return weatherService.getAllWeathers(sort);
+    }
+
     @PostMapping
-    public WeatherDTO addWeather(@RequestBody  WeatherDTO weatherDTO) {
+    public WeatherDTO addWeather(@RequestBody WeatherDTO weatherDTO) {
         return weatherService.addWeather(weatherDTO);
 
     }
 
     @DeleteMapping
-    public void removeWeather(@RequestParam String id) {
+    public void removeWeather(@RequestParam long id) {
         weatherService.removeWeather(id);
     }
 
