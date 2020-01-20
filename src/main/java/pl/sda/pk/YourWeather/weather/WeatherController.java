@@ -2,7 +2,6 @@ package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class WeatherController {
     }
 
     @GetMapping
-    public List<WeatherDTO> getWeather(@RequestParam(required = false) Map<String, String> param) {
+    public List<WeatherDTO> getWeather(@RequestParam Map<String, String> param) {
         return weatherService.getWeather(param);
     }
 

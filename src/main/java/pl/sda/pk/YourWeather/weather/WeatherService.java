@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.location.Location;
 import pl.sda.pk.YourWeather.location.LocationRepository;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,6 @@ public class WeatherService {
     public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
                           @Qualifier("locationRepository") LocationRepository locationRepository,
                           @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer) {
-
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
         this.weatherDTOTransformer = weatherDTOTransformer;
@@ -49,12 +47,10 @@ public class WeatherService {
                     .orElseThrow(() -> new NoSuchElementException("weather not found"))));
         } else if (params.containsKey("date")) {
             return Collections.singletonList(weatherDTOTransformer.toWeatherDTO(weatherRepository
-                    .findById(Long.parseLong(params.get("date")))
+                    .findByDate(params.get("date"))
                     .orElseThrow(() -> new NoSuchElementException("weather not found"))));
         } else {
-            return weatherRepository.findAll().stream()
-                    .map(weatherDTOTransformer::toWeatherDTO)
-                    .collect(Collectors.toList());
+            throw new IllegalArgumentException("no argument passed");
         }
     }
 
