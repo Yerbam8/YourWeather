@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.location.Location;
 import pl.sda.pk.YourWeather.location.LocationRepository;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,7 @@ public class WeatherService {
                     .orElseThrow(() -> new NoSuchElementException("weather not found"))));
         } else if (params.containsKey("date")) {
             return Collections.singletonList(weatherDTOTransformer.toWeatherDTO(weatherRepository
-                    .findByDate(params.get("date"))
+                    .findByDate(LocalDate.parse(params.get("date")))
                     .orElseThrow(() -> new NoSuchElementException("weather not found"))));
         } else {
             throw new IllegalArgumentException("no argument passed");

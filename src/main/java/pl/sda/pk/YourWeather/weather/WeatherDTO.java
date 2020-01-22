@@ -1,11 +1,13 @@
 package pl.sda.pk.YourWeather.weather;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import pl.sda.pk.YourWeather.location.Location;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 
 @Entity
 public class WeatherDTO {
@@ -17,7 +19,9 @@ public class WeatherDTO {
     private int temp;
     private int humidity;
     private int pressure;
-    private String date;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate date;
     private WindDirections windDirection;
     private int windSpeed;
     private String locationName;
@@ -58,11 +62,11 @@ public class WeatherDTO {
         this.pressure = pressure;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
