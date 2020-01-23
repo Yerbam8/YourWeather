@@ -10,20 +10,23 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.sda.pk.YourWeather.core.LocationAlreadyExistException;
 
+import java.io.InvalidClassException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 class LocationServiceTest {
 
     @TestConfiguration
-    static class LocationServiceTestConfiguration {
+    static class LocationServiceTestContextConfiguration {
         @Bean
         public LocationService locationService(@Qualifier("locationRepository") LocationRepository locationRepository) {
             return new LocationService(locationRepository);
@@ -38,28 +41,43 @@ class LocationServiceTest {
     @Test
     void when_add_valid_item_it_should_be_insert_to_db() {
         //given
-        Location location = new Location();
-        location.setLongitude(20.00F);
-        location.setLatitude(20.00F);
-        location.setRegion("Pol");
-        location.setCityName("Warsaw");
-        location.setCountryName("Poland");
+        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland");
         //when
         locationService.addLocation(location);
         //then
-        verify(locationRepository).save(location);
+        Mockito.verify(locationRepository).save(location);
+    }
+    @Test
+    void given_invalid_location_then_location_should_not_be_added(){
+        //given
+        Location location = new Location("","P",20.00F,20.00F,"Poland");
+        //when
+        //then
+        when(locationService.addLocation(location)).thenThrow(IllegalArgumentException.class);
+    }
+    @Test
+    void when_try_to_add_duplicate_location_then_exception_should_be_thrown(){
+        //given
+        String cityName="Warsaw";
+        float lat =0.0f;
+        float longi=0.0f;
+        Location location =new Location();
+        location.setCityName("Warsaw");
+        location.setLatitude(0.0f);
+        location.setLongitude(0.0f);
+        when(locationRepository.findByCityNameAndLongitudeAndLatitude(cityName,lat,longi)).thenReturn(Optional.of(location));
+        //when
+        //then
+        assertThrows(LocationAlreadyExistException.class,()->{
+            locationService.addLocation(location);
+        });
     }
 
     @Test
     void when_get_by_name_it_should_be_return_location() {
         //given
-        Location location = new Location();
-        location.setLongitude(20.00F);
-        location.setLatitude(20.00F);
-        location.setRegion("Pol");
-        location.setCityName("Warsaw");
-        location.setCountryName("Poland");
-        Mockito.when(locationService.getLocationByCityName("Warsaw")).thenReturn(Optional.of(location));
+        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland");
+        when(locationService.getLocationByCityName("Warsaw")).thenReturn(Optional.of(location));
         //when
         locationService.addLocation(location);
         Optional<Location> locationReturn = locationService.getLocationByCityName("Warsaw");
@@ -67,20 +85,19 @@ class LocationServiceTest {
         //then
         assertEquals(location, locationReturn.get());
     }
+
     @Test
-    void when_remove_location_return_true(){
+    void when_remove_location_which_not_exist_in_db() {
         //given
-        Location location = new Location();
-       
-        Mockito.when(locationRepository.findById(any())).thenReturn(Optional.of(location));
+        when(locationRepository.findById(any()))
+                .thenReturn(Optional.ofNullable(null));
         //when
-         locationService.removeLocation("abc");
-
-
-
-
         //then
-        verify(locationRepository).deleteById("abc");
+        assertThrows(NoSuchElementException.class, () -> {
+            locationService.removeLocation("1");
+        });
     }
 
-}
+
+    }
+

@@ -2,6 +2,7 @@ package pl.sda.pk.YourWeather.location;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.context.annotation.Primary;
 import pl.sda.pk.YourWeather.weather.Weather;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Location {
 
     @NotNull
     @NotEmpty
+    @Column(name = "city_name")
     private String cityName;
 
     @Size(min = 2)
@@ -34,6 +36,7 @@ public class Location {
 
     @NotNull
     @NotEmpty
+    @Column(name = "country_name")
     private String countryName;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -42,14 +45,17 @@ public class Location {
     public Location() {
     }
 
+
     public Location(@NotNull @NotEmpty String cityName, @Size(min = 2) @NotNull String region, @Min(-90) @Max(90) float latitude,
                     @Min(-180) @Max(180) float longitude, @NotNull @NotEmpty String countryName, List<Weather> weathers) {
+
         this.cityName = cityName;
         this.region = region;
         this.latitude = latitude;
         this.longitude = longitude;
         this.countryName = countryName;
         this.weathers = weathers;
+
     }
 
     public void setId(String id) {
