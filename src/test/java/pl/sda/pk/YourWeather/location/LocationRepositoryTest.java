@@ -34,7 +34,7 @@ class LocationRepositoryTest {
     @Test
     public void when_add_one_location_return_list_with_one(){
         //given
-        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland");
+        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland",null);
         //when
         testEntityManager.persist(location);
         List<Location> locations = locationRepository.findAll();
@@ -45,7 +45,7 @@ class LocationRepositoryTest {
     @Test
     public void save_location_then_return_one(){
         //given
-        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland");
+        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland",null);
         //when
         testEntityManager.persist(location);
         Optional<Location> location1= locationRepository.findByCityName("Warsaw");

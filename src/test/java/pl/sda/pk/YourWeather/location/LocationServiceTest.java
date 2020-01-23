@@ -41,7 +41,7 @@ class LocationServiceTest {
     @Test
     void when_add_valid_item_it_should_be_insert_to_db() {
         //given
-        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland");
+        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland",null);
         //when
         locationService.addLocation(location);
         //then
@@ -50,7 +50,7 @@ class LocationServiceTest {
     @Test
     void given_invalid_location_then_location_should_not_be_added(){
         //given
-        Location location = new Location("","P",20.00F,20.00F,"Poland");
+        Location location = new Location("","P",20.00F,20.00F,"Poland",null);
         //when
         //then
         when(locationService.addLocation(location)).thenThrow(IllegalArgumentException.class);
@@ -76,7 +76,7 @@ class LocationServiceTest {
     @Test
     void when_get_by_name_it_should_be_return_location() {
         //given
-        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland");
+        Location location = new Location("Warsaw","POL",20.00F,20.00F,"Poland",null);
         when(locationService.getLocationByCityName("Warsaw")).thenReturn(Optional.of(location));
         //when
         locationService.addLocation(location);

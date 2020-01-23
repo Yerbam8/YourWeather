@@ -1,8 +1,6 @@
 package pl.sda.pk.YourWeather.location;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.context.annotation.Primary;
 import pl.sda.pk.YourWeather.weather.Weather;
 
 import javax.persistence.*;

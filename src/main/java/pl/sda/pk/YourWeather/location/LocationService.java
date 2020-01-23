@@ -45,9 +45,12 @@ public class LocationService {
         return locationRepository.findById(id);
     }
 
-    public List<Location> getAllLocation() {
-        Sort sort = Sort.by(Sort.Direction.DESC,"cityName");
-        return locationRepository.findAll(sort);
+    public List<Location> getAllLocation(String sort) {
+        Sort sorting = Sort.by(Sort.Direction.ASC,"cityName");
+        if("DESC".equals(sort)){
+            sorting=Sort.by(Sort.Direction.DESC,"cityName");
+        }
+        return locationRepository.findAll(sorting);
     }
 
     public Location updateLocation(String id, Location location) {

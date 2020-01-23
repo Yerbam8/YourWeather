@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class LocationController {
     }
 
     @PostMapping
-    public Location addLocation(@RequestBody Location location) {
+    public Location addLocation(@RequestBody @Valid Location location) {
         return locationService.addLocation(location);
     }
 
@@ -35,8 +36,8 @@ public class LocationController {
     }
 
     @GetMapping
-    public List<Location> getAllLocation() {
-        return locationService.getAllLocation();
+    public List<Location> getAllLocation(@RequestParam(required = false) String sort) {
+        return locationService.getAllLocation(sort);
     }
 
     @PutMapping("/{id}")
@@ -48,7 +49,7 @@ public class LocationController {
     public Optional<Location> getByCityName(@PathVariable String cityName) {
         return locationService.getLocationByCityName(cityName);
     }
-    @GetMapping("/country/{countryName}")
+    @GetMapping("/country/{country}")
     public Optional<Location> getByCountryName(@PathVariable String country){
         return locationService.getLocationByCountry(country);
     }
