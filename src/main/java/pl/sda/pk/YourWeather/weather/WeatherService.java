@@ -2,10 +2,12 @@ package pl.sda.pk.YourWeather.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.location.Location;
 import pl.sda.pk.YourWeather.location.LocationRepository;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,7 +22,6 @@ public class WeatherService {
     public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
                           @Qualifier("locationRepository") LocationRepository locationRepository,
                           @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer) {
-
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
         this.weatherDTOTransformer = weatherDTOTransformer;
@@ -45,14 +46,27 @@ public class WeatherService {
             return Collections.singletonList(weatherDTOTransformer.toWeatherDTO(weatherRepository
                     .findById(Long.parseLong(params.get("id")))
                     .orElseThrow(() -> new NoSuchElementException("weather not found"))));
+        } else if (params.containsKey("date")) {
+            return Collections.singletonList(weatherDTOTransformer.toWeatherDTO(weatherRepository
+                    .findByDate(LocalDate.parse(params.get("date")))
+                    .orElseThrow(() -> new NoSuchElementException("weather not found"))));
         } else {
-            return weatherRepository.findAll().stream()
-                    .map(weatherDTOTransformer::toWeatherDTO)
-                    .collect(Collectors.toList());
+            throw new IllegalArgumentException("no argument passed");
         }
     }
 
+    public List<WeatherDTO> getAllWeathers(String sort) {
+        Sort sorting = Sort.by(Sort.Direction.ASC, "date");
+        if ("DESC".equals(sort)) {
+            sorting = Sort.by(Sort.Direction.DESC, "date");
+        }
+        return weatherRepository.findAll(sorting).stream()
+                .map(weatherDTOTransformer::toWeatherDTO)
+                .collect(Collectors.toList());
+    }
+
     public void removeWeather(long id) {
+
         Weather weatherToRemove = weatherRepository.findById(id).
                 orElseThrow(() -> new NoSuchElementException("element not found"));
 

@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/weather")
+@RequestMapping("/weathers")
 public class WeatherController {
 
     private final WeatherService weatherService;
@@ -20,12 +19,17 @@ public class WeatherController {
     }
 
     @GetMapping
-    public List<WeatherDTO> getWeather(@RequestParam(required = false) Map<String, String> param) {
+    public List<WeatherDTO> getWeather(@RequestParam Map<String, String> param) {
         return weatherService.getWeather(param);
     }
 
+    @GetMapping("/all_weathers")
+    public List<WeatherDTO> getAllWeathers(@RequestParam(required = false) String sort) {
+        return weatherService.getAllWeathers(sort);
+    }
+
     @PostMapping
-    public WeatherDTO addWeather(@RequestBody  WeatherDTO weatherDTO) {
+    public WeatherDTO addWeather(@RequestBody WeatherDTO weatherDTO) {
         return weatherService.addWeather(weatherDTO);
 
     }
