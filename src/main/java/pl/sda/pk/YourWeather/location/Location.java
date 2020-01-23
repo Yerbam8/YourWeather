@@ -1,12 +1,10 @@
 package pl.sda.pk.YourWeather.location;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import pl.sda.pk.YourWeather.weather.Weather;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Objects;
@@ -38,7 +36,7 @@ public class Location {
     @NotEmpty
     private String countryName;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Weather> weathers;
 
     public Location() {

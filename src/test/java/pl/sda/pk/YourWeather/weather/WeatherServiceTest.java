@@ -68,7 +68,7 @@ class WeatherServiceTest {
         Weather weather = new Weather();
         weather.setId(1L);
         //when
-        when(weatherRepository.findAll()).thenReturn(Collections.singletonList(weather));
+        when(weatherRepository.findById(1L)).thenReturn(Optional.of(weather));
         weatherService.removeWeather(weather.getId());
         //then
         verify(weatherRepository).delete(weather);
@@ -82,4 +82,7 @@ class WeatherServiceTest {
         //then
         assertThrows(NoSuchElementException.class, () -> weatherService.removeWeather(1L));
     }
+
+
+
 }

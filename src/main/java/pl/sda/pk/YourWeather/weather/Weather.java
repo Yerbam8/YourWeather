@@ -1,5 +1,6 @@
 package pl.sda.pk.YourWeather.weather;
 
+import org.hibernate.annotations.Cascade;
 import pl.sda.pk.YourWeather.location.Location;
 
 import javax.persistence.*;
@@ -38,7 +39,7 @@ public class Weather {
     @Column(name = "wind_speed")
     private int windSpeed;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Location location;
 
     public Weather() {
