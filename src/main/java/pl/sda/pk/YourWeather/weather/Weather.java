@@ -1,5 +1,7 @@
 package pl.sda.pk.YourWeather.weather;
 
+
+import org.hibernate.annotations.Cascade;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import pl.sda.pk.YourWeather.location.Location;
 
@@ -40,11 +42,27 @@ public class Weather {
     @Column(name = "wind_speed")
     private int windSpeed;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Location location;
 
     public Weather() {
         this.date = LocalDate.now();
+    }
+
+    public Weather(@Max(60) @Min(-60) int temp,
+                   @Min(0) @Max(100) int humidity,
+                   @Min(900) @Max(1100) int pressure,
+                   @Pattern(regexp = "^\\d{2}-\\d{2}-\\d{4}$") String date,
+                   WindDirections windDirections,
+                   @Min(0) @Max(300) int windSpeed,
+                   Location location) {
+        this.temp = temp;
+        this.humidity = humidity;
+        this.pressure = pressure;
+        this.date = date;
+        this.windDirections = windDirections;
+        this.windSpeed = windSpeed;
+        this.location = location;
     }
 
     public Long getId() {
