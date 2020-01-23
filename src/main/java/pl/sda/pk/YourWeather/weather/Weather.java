@@ -1,11 +1,13 @@
 package pl.sda.pk.YourWeather.weather;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import pl.sda.pk.YourWeather.location.Location;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -27,8 +29,8 @@ public class Weather {
     @Max(1100)
     private int pressure;
 
-    @Pattern(regexp = "^\\d{2}-\\d{2}-\\d{4}$")
-    private String date;
+    @JsonFormat(pattern = "dd-MM-yyy")
+    private LocalDate date;
 
     @Column(name = "wind_directions")
     private WindDirections windDirections;
@@ -42,6 +44,7 @@ public class Weather {
     private Location location;
 
     public Weather() {
+        this.date = LocalDate.now();
     }
 
     public Long getId() {
@@ -72,11 +75,11 @@ public class Weather {
         this.pressure = pressure;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -113,7 +116,7 @@ public class Weather {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Weather weather = (Weather) o;
-        return id == weather.id &&
+        return id.equals(weather.id) &&
                 temp == weather.temp &&
                 humidity == weather.humidity &&
                 pressure == weather.pressure &&
