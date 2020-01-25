@@ -23,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class WeatherRepositoryTest {
 
-    @Qualifier("weatherRepository")
     @Autowired
     private WeatherRepository weatherRepository;
 

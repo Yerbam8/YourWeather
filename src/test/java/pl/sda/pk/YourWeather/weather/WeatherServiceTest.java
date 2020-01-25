@@ -24,8 +24,8 @@ class WeatherServiceTest {
     static class WeatherServiceTestConfiguration {
         @Bean
         public static WeatherService weatherService(WeatherRepository weatherRepository,
-                                             LocationRepository locationRepository,
-                                             WeatherDTOTransformer weatherDTOTransformer) {
+                                                    LocationRepository locationRepository,
+                                                    WeatherDTOTransformer weatherDTOTransformer) {
             return new WeatherService(weatherRepository, locationRepository, weatherDTOTransformer);
         }
     }
@@ -82,7 +82,6 @@ class WeatherServiceTest {
         //then
         assertThrows(NoSuchElementException.class, () -> weatherService.removeWeather(1L));
     }
-
 
 
 }

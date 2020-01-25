@@ -9,17 +9,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
-@Entity
 public class WeatherDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private int temp;
     private int humidity;
     private int pressure;
-
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
     private WindDirections windDirection;
@@ -30,7 +25,8 @@ public class WeatherDTO {
     public WeatherDTO() {
     }
 
-    public WeatherDTO(int temp, int humidity, int pressure, LocalDate date, WindDirections windDirection, int windSpeed, String locationName, String locationId) {
+    public WeatherDTO(long id, int temp, int humidity, int pressure, LocalDate date, WindDirections windDirection, int windSpeed, String locationName, String locationId) {
+        this.id = id;
         this.temp = temp;
         this.humidity = humidity;
         this.pressure = pressure;

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service("weatherService")
+@Service
 public class WeatherService {
 
     private final WeatherRepository weatherRepository;
@@ -19,9 +19,9 @@ public class WeatherService {
     private final WeatherDTOTransformer weatherDTOTransformer;
 
     @Autowired
-    public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
-                          @Qualifier("locationRepository") LocationRepository locationRepository,
-                          @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer) {
+    public WeatherService(WeatherRepository weatherRepository,
+                          LocationRepository locationRepository,
+                          WeatherDTOTransformer weatherDTOTransformer) {
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
         this.weatherDTOTransformer = weatherDTOTransformer;

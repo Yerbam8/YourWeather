@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Service("locationService")
+@Service
 public class LocationService {
     private final LocationRepository locationRepository;
 
     @Autowired
-    public LocationService(@Qualifier("locationRepository") LocationRepository locationRepository) {
+    public LocationService(LocationRepository locationRepository) {
         this.locationRepository = locationRepository;
     }
 

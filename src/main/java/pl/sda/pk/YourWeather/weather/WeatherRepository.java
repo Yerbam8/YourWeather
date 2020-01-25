@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.Optional;
 
-@Repository("weatherRepository")
+@Repository
 public interface WeatherRepository extends JpaRepository<Weather, Long> {
 
     Optional<Weather> findByDate(LocalDate date);
