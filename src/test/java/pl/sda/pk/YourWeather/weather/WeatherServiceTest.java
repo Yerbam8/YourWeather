@@ -23,7 +23,7 @@ class WeatherServiceTest {
     @TestConfiguration
     static class WeatherServiceTestConfiguration {
         @Bean
-        public WeatherService weatherService(WeatherRepository weatherRepository,
+        public static WeatherService weatherService(WeatherRepository weatherRepository,
                                              LocationRepository locationRepository,
                                              WeatherDTOTransformer weatherDTOTransformer) {
             return new WeatherService(weatherRepository, locationRepository, weatherDTOTransformer);

@@ -30,6 +30,17 @@ public class WeatherDTO {
     public WeatherDTO() {
     }
 
+    public WeatherDTO(int temp, int humidity, int pressure, LocalDate date, WindDirections windDirection, int windSpeed, String locationName, String locationId) {
+        this.temp = temp;
+        this.humidity = humidity;
+        this.pressure = pressure;
+        this.date = date;
+        this.windDirection = windDirection;
+        this.windSpeed = windSpeed;
+        this.locationName = locationName;
+        this.locationId = locationId;
+    }
+
     public long getId() {
         return id;
     }

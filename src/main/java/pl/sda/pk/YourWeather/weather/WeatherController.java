@@ -14,7 +14,7 @@ public class WeatherController {
     private final WeatherService weatherService;
 
     @Autowired
-    public WeatherController(@Qualifier("weatherService") @Valid WeatherService weatherService) {
+    public WeatherController(@Qualifier("weatherService") WeatherService weatherService) {
         this.weatherService = weatherService;
     }
 

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Description;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.sda.pk.YourWeather.location.Location;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,7 +47,7 @@ class WeatherRepositoryTest {
         Location location = new Location("Szczecin", "Zachodnipomorskie", 0, 0, "Poland",
                 null);
         Weather weather = new Weather(20, 20, 1000,
-                "10-01-1990", WindDirections.NORTH, 10, location);
+                LocalDate.of(2000, 10, 10), WindDirections.NORTH, 10, location);
         //when
         testEntityManager.persist(weather);
         List<Weather> weatherList = weatherRepository.findAll();

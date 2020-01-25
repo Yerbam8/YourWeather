@@ -36,7 +36,7 @@ public class Location {
     @NotEmpty
     private String countryName;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany()
     private List<Weather> weathers;
 
     public Location() {
