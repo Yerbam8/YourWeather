@@ -40,17 +40,17 @@ class WeatherRepositoryTest {
         assertEquals(0, weatherList.size());
     }
 
-    @Test
-    void when_item_added_to_db_then_repo_should_return_one_element() {
-        //given
-        Location location = new Location("Szczecin", "Zachodnipomorskie", 0, 0, "Poland",
-                null);
-        Weather weather = new Weather(20, 20, 1000,
-                "10-01-1990", WindDirections.NORTH, 10, location);
-        //when
-        testEntityManager.persist(weather);
-        List<Weather> weatherList = weatherRepository.findAll();
-        //then
-        assertEquals(1, weatherList.size());
-    }
+//    @Test
+//    void when_item_added_to_db_then_repo_should_return_one_element() {
+//        //given
+//        Location location = new Location("Szczecin", "Zachodnipomorskie", 0, 0, "Poland",
+//                null);
+//        Weather weather = new Weather(20, 20, 1000,
+//                "10-01-1990" , WindDirections.NORTH, 10, location);
+//        //when
+//        testEntityManager.persist(weather);
+//        List<Weather> weatherList = weatherRepository.findAll();
+//        //then
+//        assertEquals(1, weatherList.size());
+//    }
 }

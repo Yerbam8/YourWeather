@@ -52,7 +52,7 @@ public class Weather {
     public Weather(@Max(60) @Min(-60) int temp,
                    @Min(0) @Max(100) int humidity,
                    @Min(900) @Max(1100) int pressure,
-                   @Pattern(regexp = "^\\d{2}-\\d{2}-\\d{4}$") String date,
+                   LocalDate date,
                    WindDirections windDirections,
                    @Min(0) @Max(300) int windSpeed,
                    Location location) {
@@ -64,6 +64,7 @@ public class Weather {
         this.windSpeed = windSpeed;
         this.location = location;
     }
+
 
     public Long getId() {
         return id;
