@@ -52,7 +52,16 @@ public class WeatherService {
         weather.setHumidity((int) weatherApi.getMain().getHumidity());
         weather.setPressure((int) weatherApi.getMain().getPressure());
         weather.setTemp((int) weatherApi.getMain().getTemp());
+        weather.setWindSpeed(weatherApi.getWind().getSpeed());
+        weather.setDate(LocalDate.now());
+        Location location = new Location();
+        location.setCountryName(weatherApi.getSys().getCountry());
+        location.setCityName(weatherApi.getCityName());
+        location.setLatitude(weatherApi.getCoord().getLat());
+        location.setLongitude(weatherApi.getCoord().getLon());
+        weather.setLocation(location);
         return weather;
+
     }
 
     public List<WeatherDTO> getWeather(Map<String, String> params) {
