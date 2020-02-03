@@ -1,12 +1,8 @@
 package pl.sda.pk.YourWeather.weather;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import pl.sda.pk.YourWeather.location.Location;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Entity

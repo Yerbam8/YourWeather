@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -15,9 +14,7 @@ import java.util.Collections;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,13 +26,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class LocationControllerTest {
     @Autowired
     private MockMvc mvc;
+    @Autowired
+    private LocationDTOTransformer locationDTOTransformer;
     @MockBean
     private LocationService locationService;
 
     @Test
     void when_request_get_all_then_locations_should_be_return() throws Exception {
         //given
-        when(locationService.getAllLocation("ASC")).thenReturn(Collections.singletonList(new Location("Szczecin", "PL", 20.00F, 20.00F, "Polska", null)));
+        when(locationService.getAllLocation("ASC")).thenReturn(Collections.singletonList(locationDTOTransformer.toLocationDTO(new Location("Szczecin", "PL", 20.00F, 20.00F, "Polska", null))));
 
         //when and then
         mvc.perform(MockMvcRequestBuilders.get(("/locations"))
@@ -78,7 +77,7 @@ class LocationControllerTest {
     @Test
     void abc() throws Exception {
         //given
-        when(locationService.getLocationByCityName("Warsaw")).thenReturn(java.util.Optional.of(new Location("Warsaw", "POL", 20.00F, 20.00F, "Poland", null)));
+        when(locationService.getLocationByCityName("Warsaw")).thenReturn(java.util.Optional.of(locationDTOTransformer.toLocationDTO(new Location("Warsaw", "POL", 20.00F, 20.00F, "Poland", null))));
         //when and then
         mvc.perform(get("/locations/city/{cityName}", "Warsaw").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.cityName", equalTo("Warsaw")));

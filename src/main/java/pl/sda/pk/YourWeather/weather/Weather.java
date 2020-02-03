@@ -1,14 +1,13 @@
 package pl.sda.pk.YourWeather.weather;
 
 
-import org.hibernate.annotations.Cascade;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import pl.sda.pk.YourWeather.location.Location;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -17,6 +16,7 @@ public class Weather {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @Max(60)
@@ -43,6 +43,7 @@ public class Weather {
     private int windSpeed;
 
     @ManyToOne(cascade = {CascadeType.ALL})
+    @JsonIgnore
     private Location location;
 
     public Weather() {
