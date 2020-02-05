@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import pl.sda.pk.YourWeather.external_api.OpenWeatherApiFetcher;
+import pl.sda.pk.YourWeather.external_api.WeatherApi;
 import pl.sda.pk.YourWeather.location.Location;
 import pl.sda.pk.YourWeather.location.LocationRepository;
 
@@ -17,14 +19,17 @@ public class WeatherService {
     private final WeatherRepository weatherRepository;
     private final LocationRepository locationRepository;
     private final WeatherDTOTransformer weatherDTOTransformer;
+    private final OpenWeatherApiFetcher openWeatherApiFetcher;
 
     @Autowired
     public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
                           @Qualifier("locationRepository") LocationRepository locationRepository,
-                          @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer) {
+                          @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer,
+                          OpenWeatherApiFetcher openWeatherApiFetcher) {
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
         this.weatherDTOTransformer = weatherDTOTransformer;
+        this.openWeatherApiFetcher = openWeatherApiFetcher;
     }
 
     public WeatherDTO addWeather(WeatherDTO weatherDTO) {
@@ -39,6 +44,24 @@ public class WeatherService {
         location.getWeathers().add(savedWeather);
         locationRepository.save(location);
         return weatherDTOTransformer.toWeatherDTO(savedWeather);
+    }
+
+    public Weather getWeatherFromApiByName(String name) {
+        WeatherApi weatherApi = openWeatherApiFetcher.getWeather(name);
+        Weather weather = new Weather();
+        weather.setHumidity((int) weatherApi.getMain().getHumidity());
+        weather.setPressure((int) weatherApi.getMain().getPressure());
+        weather.setTemp((int) weatherApi.getMain().getTemp());
+        weather.setWindSpeed(weatherApi.getWind().getSpeed());
+        weather.setDate(LocalDate.now());
+        Location location = new Location();
+        location.setCountryName(weatherApi.getSys().getCountry());
+        location.setCityName(weatherApi.getCityName());
+        location.setLatitude(weatherApi.getCoord().getLat());
+        location.setLongitude(weatherApi.getCoord().getLon());
+        weather.setLocation(location);
+        return weather;
+
     }
 
     public List<WeatherDTO> getWeather(Map<String, String> params) {

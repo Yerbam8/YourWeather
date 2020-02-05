@@ -1,19 +1,13 @@
 package pl.sda.pk.YourWeather.weather;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Description;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import pl.sda.pk.YourWeather.location.Location;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +27,7 @@ class WeatherRepositoryTest {
     void when_there_are_no_items_in_db_then_repo_should_return_empty() {
         //given
 //        Location location = new Location();
-//        Weather weather = new Weather(60,30,1000,"10-10-1999",WindDirections.NORTH,20, location);
+//        WeatherApi weather = new WeatherApi(60,30,1000,"10-10-1999",WindDirections.NORTH,20, location);
         //when
         List<Weather> weatherList = weatherRepository.findAll();
         //then
@@ -45,11 +39,11 @@ class WeatherRepositoryTest {
 //        //given
 //        Location location = new Location("Szczecin", "Zachodnipomorskie", 0, 0, "Poland",
 //                null);
-//        Weather weather = new Weather(20, 20, 1000,
+//        WeatherApi weather = new WeatherApi(20, 20, 1000,
 //                "10-01-1990" , WindDirections.NORTH, 10, location);
 //        //when
 //        testEntityManager.persist(weather);
-//        List<Weather> weatherList = weatherRepository.findAll();
+//        List<WeatherApi> weatherList = weatherRepository.findAll();
 //        //then
 //        assertEquals(1, weatherList.size());
 //    }

@@ -18,6 +18,10 @@ public class WeatherController {
     public WeatherController(@Qualifier("weatherService") @Valid WeatherService weatherService) {
         this.weatherService = weatherService;
     }
+    @GetMapping("/{cityName}")
+    public Weather getFromApi(@PathVariable String cityName){
+        return weatherService.getWeatherFromApiByName(cityName);
+    }
 
     @GetMapping
     public List<WeatherDTO> getWeather(@RequestParam Map<String, String> param) {
