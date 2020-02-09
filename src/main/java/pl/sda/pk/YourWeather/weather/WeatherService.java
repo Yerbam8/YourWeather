@@ -6,6 +6,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.external_api.OpenWeatherApiFetcher;
 import pl.sda.pk.YourWeather.external_api.WeatherApi;
+import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApi;
+import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApiFeather;
 import pl.sda.pk.YourWeather.location.Location;
 import pl.sda.pk.YourWeather.location.LocationRepository;
 
@@ -20,16 +22,19 @@ public class WeatherService {
     private final LocationRepository locationRepository;
     private final WeatherDTOTransformer weatherDTOTransformer;
     private final OpenWeatherApiFetcher openWeatherApiFetcher;
+    private final WeatherBitApiFeather weatherBitApiFeather;
 
     @Autowired
     public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
                           @Qualifier("locationRepository") LocationRepository locationRepository,
                           @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer,
-                          OpenWeatherApiFetcher openWeatherApiFetcher) {
+                          OpenWeatherApiFetcher openWeatherApiFetcher,
+                          WeatherBitApiFeather weatherBitApiFeather) {
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
         this.weatherDTOTransformer = weatherDTOTransformer;
         this.openWeatherApiFetcher = openWeatherApiFetcher;
+        this.weatherBitApiFeather = weatherBitApiFeather;
     }
 
     public WeatherDTO addWeather(WeatherDTO weatherDTO) {
@@ -61,7 +66,28 @@ public class WeatherService {
         location.setLongitude(weatherApi.getCoord().getLon());
         weather.setLocation(location);
         return weather;
+    }
 
+    public Weather getWeatherFromWeatherBitApi(String name, String country) {
+        WeatherBitApi weatherBitApi = weatherBitApiFeather.getWeather(name, country);
+        Weather weather = new Weather();
+        weather.setWindSpeed((int) weatherBitApi.getData().get(0).getWindSpeed());
+        weather.setPressure((int) weatherBitApi.getData().get(0).getPres());
+        weather.setTemp((int) weatherBitApi.getData().get(0).getTemp());
+        weather.setHumidity((int) weatherBitApi.getData().get(0).getHumidity());
+        weather.setDate(
+                (LocalDate.of(weatherBitApi.getData().get(0).getLocalDate().getYear(),
+                        weatherBitApi.getData().get(0).getLocalDate().getMonth(),
+                        weatherBitApi.getData().get(0).getLocalDate().getDayOfMonth()
+                )));
+        Location location = new Location();
+        location.setCountryName(weatherBitApi.getData().get(0).getCountryCode());
+        location.setCountryName(weatherBitApi.getData().get(0).getCityName());
+        location.setLatitude(weatherBitApi.getData().get(0).getLat());
+        location.setLongitude(weatherBitApi.getData().get(0).getLon());
+        weather.setLocation(location);
+
+        return weather;
     }
 
     public List<WeatherDTO> getWeather(Map<String, String> params) {

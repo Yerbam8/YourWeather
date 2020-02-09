@@ -18,8 +18,15 @@ public class WeatherController {
     public WeatherController(@Qualifier("weatherService") @Valid WeatherService weatherService) {
         this.weatherService = weatherService;
     }
+
+    @GetMapping("/{cityName}/{country}")
+    public Weather getFromApi(@PathVariable("cityName") String cityName,
+                              @PathVariable("country") String country) {
+        return weatherService.getWeatherFromWeatherBitApi(cityName, country);
+    }
+
     @GetMapping("/{cityName}")
-    public Weather getFromApi(@PathVariable String cityName){
+    public Weather getFromApi(@PathVariable String cityName) {
         return weatherService.getWeatherFromApiByName(cityName);
     }
 
