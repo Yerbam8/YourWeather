@@ -2,14 +2,10 @@ package pl.sda.pk.YourWeather.weather;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
 public class WeatherDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private int temp;
