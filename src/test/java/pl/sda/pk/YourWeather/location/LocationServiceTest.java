@@ -4,14 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.sda.pk.YourWeather.core.LocationAlreadyExistException;
-import pl.sda.pk.YourWeather.external_api.OpenWeatherApiFetcher;
+import pl.sda.pk.YourWeather.external_api.openWeatherApi.OpenWeatherApiFetcher;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.external_api;
+package pl.sda.pk.YourWeather.external_api.openWeatherApi;
 
 public class WeatherApi {
     private String name;

@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.core.LocationAlreadyExistException;
-import pl.sda.pk.YourWeather.external_api.OpenWeatherApiFetcher;
-import pl.sda.pk.YourWeather.external_api.WeatherApi;
+import pl.sda.pk.YourWeather.external_api.openWeatherApi.OpenWeatherApiFetcher;
+import pl.sda.pk.YourWeather.external_api.openWeatherApi.WeatherApi;
 import pl.sda.pk.YourWeather.weather.Weather;
 import pl.sda.pk.YourWeather.weather.WindDirections;
 
