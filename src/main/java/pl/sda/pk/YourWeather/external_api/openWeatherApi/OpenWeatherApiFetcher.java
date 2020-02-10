@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.external_api;
+package pl.sda.pk.YourWeather.external_api.openWeatherApi;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
