@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.weather;
+package pl.sda.pk.YourWeather.MVC.weather;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,8 +8,8 @@ import pl.sda.pk.YourWeather.external_api.openWeatherApi.OpenWeatherApiFetcher;
 import pl.sda.pk.YourWeather.external_api.openWeatherApi.WeatherApi;
 import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApi;
 import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApiFeather;
-import pl.sda.pk.YourWeather.location.Location;
-import pl.sda.pk.YourWeather.location.LocationRepository;
+import pl.sda.pk.YourWeather.MVC.location.Location;
+import pl.sda.pk.YourWeather.MVC.location.LocationRepository;
 
 import java.time.LocalDate;
 import java.util.*;

@@ -1,9 +1,9 @@
-package pl.sda.pk.YourWeather.weather;
+package pl.sda.pk.YourWeather.MVC.weather;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import pl.sda.pk.YourWeather.location.Location;
+import pl.sda.pk.YourWeather.MVC.location.Location;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;

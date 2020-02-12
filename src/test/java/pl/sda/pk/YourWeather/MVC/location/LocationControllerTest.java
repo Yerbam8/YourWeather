@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.location;
+package pl.sda.pk.YourWeather.MVC.location;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

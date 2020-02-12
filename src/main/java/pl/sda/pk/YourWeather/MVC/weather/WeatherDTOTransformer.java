@@ -1,7 +1,7 @@
-package pl.sda.pk.YourWeather.weather;
+package pl.sda.pk.YourWeather.MVC.weather;
 
 import org.springframework.stereotype.Component;
-import pl.sda.pk.YourWeather.location.Location;
+import pl.sda.pk.YourWeather.MVC.location.Location;
 
 @Component("weatherDTOTransformer")
 public class WeatherDTOTransformer {

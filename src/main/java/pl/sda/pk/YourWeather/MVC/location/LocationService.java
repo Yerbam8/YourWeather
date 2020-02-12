@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.location;
+package pl.sda.pk.YourWeather.MVC.location;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.core.LocationAlreadyExistException;
 import pl.sda.pk.YourWeather.external_api.openWeatherApi.OpenWeatherApiFetcher;
 import pl.sda.pk.YourWeather.external_api.openWeatherApi.WeatherApi;
-import pl.sda.pk.YourWeather.weather.Weather;
-import pl.sda.pk.YourWeather.weather.WindDirections;
+import pl.sda.pk.YourWeather.MVC.weather.Weather;
+import pl.sda.pk.YourWeather.MVC.weather.WindDirections;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -45,7 +45,6 @@ public class LocationService {
                 });
         return locationRepository.save(location);
     }
-
 
     public void removeLocation(String id) {
         locationRepository.findAll().stream()

@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.location;
+package pl.sda.pk.YourWeather.MVC.location;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

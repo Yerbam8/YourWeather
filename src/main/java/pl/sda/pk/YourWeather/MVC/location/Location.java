@@ -1,7 +1,7 @@
-package pl.sda.pk.YourWeather.location;
+package pl.sda.pk.YourWeather.MVC.location;
 
 import org.hibernate.annotations.GenericGenerator;
-import pl.sda.pk.YourWeather.weather.Weather;
+import pl.sda.pk.YourWeather.MVC.weather.Weather;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;

@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.location;
+package pl.sda.pk.YourWeather.MVC.location;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

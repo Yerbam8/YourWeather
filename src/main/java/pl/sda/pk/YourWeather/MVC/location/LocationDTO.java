@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.location;
+package pl.sda.pk.YourWeather.MVC.location;
 
 public class LocationDTO {
     private String fullName;

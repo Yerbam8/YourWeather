@@ -2,7 +2,6 @@ package pl.sda.pk.YourWeather.external_api.weather_bit;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pl.sda.pk.YourWeather.weather.WindDirections;
 
 import java.time.LocalDateTime;
 
