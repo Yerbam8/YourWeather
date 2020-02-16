@@ -1,4 +1,4 @@
-package pl.sda.pk.YourWeather.external_api.openWeatherApi;
+package pl.sda.pk.YourWeather.external_api.open_weather_api;
 
 public class WeatherMainInfo {
     private float temp;

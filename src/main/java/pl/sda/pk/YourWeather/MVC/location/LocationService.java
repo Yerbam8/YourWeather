@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.sda.pk.YourWeather.core.LocationAlreadyExistException;
-import pl.sda.pk.YourWeather.external_api.openWeatherApi.OpenWeatherApiFetcher;
-import pl.sda.pk.YourWeather.external_api.openWeatherApi.WeatherApi;
+import pl.sda.pk.YourWeather.external_api.open_weather_api.OpenWeatherApiFetcher;
+import pl.sda.pk.YourWeather.external_api.open_weather_api.WeatherApi;
 import pl.sda.pk.YourWeather.MVC.weather.Weather;
 import pl.sda.pk.YourWeather.MVC.weather.WindDirections;
+import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApi;
+import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApiFetcher;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -22,13 +24,15 @@ import java.util.stream.Stream;
 public class LocationService {
     private final LocationRepository locationRepository;
     private final OpenWeatherApiFetcher openWeatherApiFetcher;
+    private final WeatherBitApiFetcher weatherBitApiFeather;
     private final LocationDTOTransformer locationDTOTransformer;
 
 
     @Autowired
-    public LocationService(@Qualifier("locationRepository") LocationRepository locationRepository, OpenWeatherApiFetcher openWeatherApiFetcher, LocationDTOTransformer locationDTOTransformer) {
+    public LocationService(@Qualifier("locationRepository") LocationRepository locationRepository, OpenWeatherApiFetcher openWeatherApiFetcher, WeatherBitApiFetcher weatherBitApiFeather, LocationDTOTransformer locationDTOTransformer) {
         this.locationRepository = locationRepository;
         this.openWeatherApiFetcher = openWeatherApiFetcher;
+        this.weatherBitApiFeather = weatherBitApiFeather;
         this.locationDTOTransformer = locationDTOTransformer;
     }
 
@@ -120,6 +124,12 @@ public class LocationService {
                 .orElseThrow(NoSuchElementException::new))
                 .map(locationDTOTransformer::toLocationDTO)
                 .findFirst();
+    }
+
+    public LocationDTO getAverageLocationFromApiByName(String cityName, String countryCode) {
+        WeatherApi weatherApi = openWeatherApiFetcher.getWeather(cityName);
+        WeatherBitApi weatherBitApi = weatherBitApiFeather.getWeather(cityName, countryCode);
+        return LocationDTOTransformer.getAverageWeather(weatherBitApi, weatherApi);
     }
 
 

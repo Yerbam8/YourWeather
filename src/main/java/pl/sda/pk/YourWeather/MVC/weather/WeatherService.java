@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import pl.sda.pk.YourWeather.external_api.openWeatherApi.OpenWeatherApiFetcher;
-import pl.sda.pk.YourWeather.external_api.openWeatherApi.WeatherApi;
+import pl.sda.pk.YourWeather.external_api.open_weather_api.OpenWeatherApiFetcher;
+import pl.sda.pk.YourWeather.external_api.open_weather_api.WeatherApi;
 import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApi;
-import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApiFeather;
+import pl.sda.pk.YourWeather.external_api.weather_bit.WeatherBitApiFetcher;
 import pl.sda.pk.YourWeather.MVC.location.Location;
 import pl.sda.pk.YourWeather.MVC.location.LocationRepository;
 
@@ -22,14 +22,14 @@ public class WeatherService {
     private final LocationRepository locationRepository;
     private final WeatherDTOTransformer weatherDTOTransformer;
     private final OpenWeatherApiFetcher openWeatherApiFetcher;
-    private final WeatherBitApiFeather weatherBitApiFeather;
+    private final WeatherBitApiFetcher weatherBitApiFeather;
 
     @Autowired
     public WeatherService(@Qualifier("weatherRepository") WeatherRepository weatherRepository,
                           @Qualifier("locationRepository") LocationRepository locationRepository,
                           @Qualifier("weatherDTOTransformer") WeatherDTOTransformer weatherDTOTransformer,
                           OpenWeatherApiFetcher openWeatherApiFetcher,
-                          WeatherBitApiFeather weatherBitApiFeather) {
+                          WeatherBitApiFetcher weatherBitApiFeather) {
         this.weatherRepository = weatherRepository;
         this.locationRepository = locationRepository;
         this.weatherDTOTransformer = weatherDTOTransformer;

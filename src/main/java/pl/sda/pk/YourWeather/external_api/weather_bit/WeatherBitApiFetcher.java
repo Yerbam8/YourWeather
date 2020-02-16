@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class WeatherBitApiFeather {
+public class WeatherBitApiFetcher {
 
     public WeatherBitApi getWeather(String location, String countryCode) {
         RestTemplate restTemplate = new RestTemplate();

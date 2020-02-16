@@ -10,7 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.sda.pk.YourWeather.core.LocationAlreadyExistException;
-import pl.sda.pk.YourWeather.external_api.openWeatherApi.OpenWeatherApiFetcher;
+import pl.sda.pk.YourWeather.external_api.open_weather_api.OpenWeatherApiFetcher;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,7 +27,7 @@ class LocationServiceTest {
     static class LocationServiceTestContextConfiguration {
         @Bean
         public LocationService locationService(LocationRepository locationRepository, LocationDTOTransformer locationDTOTransformer, OpenWeatherApiFetcher openWeatherApiFetcher) {
-            return new LocationService(locationRepository, openWeatherApiFetcher, locationDTOTransformer);
+            return new LocationService(locationRepository, openWeatherApiFetcher, weatherBitApiFeather, locationDTOTransformer);
         }
     }
 

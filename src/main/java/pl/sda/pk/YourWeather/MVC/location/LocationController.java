@@ -15,16 +15,16 @@ public class LocationController {
 
     private final LocationService locationService;
 
-
     @Autowired
     public LocationController(@Qualifier("locationService") LocationService locationService) {
         this.locationService = locationService;
 
     }
 
-    @GetMapping("/api/{cityName}")
-    public LocationDTO getFromApi(@PathVariable String cityName){
-        return locationService.getLocationFromApiByName(cityName);
+    @GetMapping("/api/{cityName},{countryCode}")
+    public LocationDTO getFromApi(@PathVariable String cityName,
+                                  @PathVariable String countryCode) {
+        return locationService.getAverageLocationFromApiByName(cityName, countryCode);
     }
 
 
@@ -57,16 +57,19 @@ public class LocationController {
     public Optional<LocationDTO> getByCityName(@PathVariable String cityName) {
         return locationService.getLocationByCityName(cityName);
     }
+
     @GetMapping("/country/{country}")
-    public Optional<LocationDTO> getByCountryName(@PathVariable String country){
+    public Optional<LocationDTO> getByCountryName(@PathVariable String country) {
         return locationService.getLocationByCountry(country);
     }
+
     @GetMapping("/{lat}/{longitude}")
-    public Optional<LocationDTO> getByLatAndLong(@PathVariable float lat,@PathVariable float longitude){
-        return locationService.getLocationByLatAndLong(lat,longitude);
+    public Optional<LocationDTO> getByLatAndLong(@PathVariable float lat, @PathVariable float longitude) {
+        return locationService.getLocationByLatAndLong(lat, longitude);
     }
+
     @GetMapping("/region/{region}")
-    public Optional<LocationDTO> getLocationByRegion(@PathVariable String region){
+    public Optional<LocationDTO> getLocationByRegion(@PathVariable String region) {
         return locationService.getLocationByRegion(region);
     }
 }
