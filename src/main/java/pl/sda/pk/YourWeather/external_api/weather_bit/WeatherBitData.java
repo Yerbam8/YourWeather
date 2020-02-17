@@ -2,49 +2,48 @@ package pl.sda.pk.YourWeather.external_api.weather_bit;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import pl.sda.pk.YourWeather.weather.WindDirections;
 
 import java.time.LocalDateTime;
 
 public class WeatherBitData {
 
-    private long lon;
-    private long lat;
-    private long pres;
+    private float lon;
+    private float lat;
+    private int pres;
     @JsonProperty("country_code")
     private String countryCode;
     @JsonProperty("city_name")
     private String cityName;
     @JsonProperty("wind_spd")
-    private long windSpeed;
-    private long temp;
+    private int windSpeed;
+    private float temp;
     @JsonProperty("rh")
-    private long humidity;
+    private int humidity;
     @JsonProperty("ob_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime localDate;
 
-    public long getLon() {
+    public float getLon() {
         return lon;
     }
 
-    public void setLon(long lon) {
+    public void setLon(float lon) {
         this.lon = lon;
     }
 
-    public long getLat() {
+    public float getLat() {
         return lat;
     }
 
-    public void setLat(long lat) {
+    public void setLat(float lat) {
         this.lat = lat;
     }
 
-    public long getPres() {
+    public int getPres() {
         return pres;
     }
 
-    public void setPres(long pres) {
+    public void setPres(int pres) {
         this.pres = pres;
     }
 
@@ -64,27 +63,27 @@ public class WeatherBitData {
         this.cityName = cityName;
     }
 
-    public long getWindSpeed() {
+    public int getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(long windSpeed) {
+    public void setWindSpeed(int windSpeed) {
         this.windSpeed = windSpeed;
     }
 
-    public long getTemp() {
+    public float getTemp() {
         return temp;
     }
 
-    public void setTemp(long temp) {
+    public void setTemp(float temp) {
         this.temp = temp;
     }
 
-    public long getHumidity() {
+    public int getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(long humidity) {
+    public void setHumidity(int humidity) {
         this.humidity = humidity;
     }
 
